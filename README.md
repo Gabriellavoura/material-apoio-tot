@@ -1,4 +1,5 @@
-# :octocat: Introdução
+# :wave: Introdução
+
 Olá, no projeto ToT - Text Of Things você terá uma experiência bem próxima do mercado de trabalho atual, tendo contato com diversas tecnologias utilizadas por gigantes da tecnologia, terá a oportunidade de trabalhar com uma stack atual baseada em microsserviços, robusta e de alta escalabilidade.
 No grupo OCR você irá trabalhar com o desenvolvimento de ferramentas para o processamento de imagens e implementação das ferramentas desenvolvidas com os demais grupos do projeto.
 
@@ -30,7 +31,7 @@ Basta seguir o passo a passo para realização da atividade final.
 
 ## :computer: Configuração do Ambiente 
 1.  OS Win10 com WSL - [Windows Subsystem Linux - WSL](https://docs.microsoft.com/pt-br/windows/wsl/install-win10)
-    * > Caso não possua Hyper-V opte por trabalhar com WSL, pois o desempenho do docker será melhor.
+   * > Caso não possua Hyper-V opte por trabalhar com WSL, pois o desempenho do docker será melhor.
   
 2. Editor de Texto -  [Instalaçao do VSCode](https://code.visualstudio.com/)
    * Pluggins Sugeridos:
@@ -51,7 +52,7 @@ Basta seguir o passo a passo para realização da atividade final.
   
 4. Instalar Docker
    * [Docker](https://docs.docker.com/docker-for-windows/install/)
-   * > Verificar se há hyper-V caso contrario opte pelo Backend com WSL2.
+     * > Verificar se há hyper-V caso contrario opte pelo Backend com WSL2.
   
 5. Instalar Kubernetes ou MiniKube
    * [Kubernets](https://kubernetes.io/docs/home/)
@@ -91,16 +92,18 @@ Basta seguir o passo a passo para realização da atividade final.
    * Bônus
      * [Tutorial - A comprehensive guide to OCR with Tesseract, OpenCV and Python](https://nanonets.com/blog/ocr-with-tesseract/)
 
-4.  Introdução a Funções como Serviço - OpenFaaS
-  * [Function as a Services - OpenFaaS](https://www.openfaas.com/)
-  * **Atividade Obrigatoria:** [Workshop OpenFaaS](https://github.com/openfaas/workshop)
-  * > Realizar Labs: 1,2,3,4,7,8
+4. Introdução a Funções como Serviço - OpenFaaS
+   * [Function as a Services - OpenFaaS](https://www.openfaas.com/)
+   * **Atividade Obrigatoria:** [Workshop OpenFaaS](https://github.com/openfaas/workshop)
+   * > Realizar Labs: 1,2,3,4,7,8
 
 5. Configuração Minio utilizando Docker:
    * [Minio](https://docs.min.io/)
    * [Quickstart Guide](https://docs.min.io/docs/python-client-quickstart-guide.html)
    * [API Reference](https://docs.min.io/docs/python-client-api-reference.html)
    > Utilizar a documentação legado para realizar a Docker Installation
+
+
 
 # :pencil: Exercício final
 
