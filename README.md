@@ -24,7 +24,8 @@ deve-se realizar, uma leitura basica dos links citados, acompanhado sempre que p
 
 
 
-# :zap: Roadmap sugerido
+# :zap: Roadmap
+Basta seguir o passo a passo para realização da atividade final.
 
 ## Configuração do Ambiente 
 1.  OS Win10 com WSL - [Windows Subsystem Linux - WSL](https://docs.microsoft.com/pt-br/windows/wsl/install-win10)
@@ -53,10 +54,11 @@ deve-se realizar, uma leitura basica dos links citados, acompanhado sempre que p
   
 5. Instalar Kubernetes ou MiniKube
    * [Kubernets](https://kubernetes.io/docs/home/)
-   * [Minikube] (https://minikube.sigs.k8s.io/docs/start/)
+   * [Minikube](https://minikube.sigs.k8s.io/docs/start/)
       * > Sugiro Minikube e instalar via wsl( selecionar a opção Linux).
 
-## Materiais e Ferramentas  
+## Materiais e Ferramentas
+
 1. Noções básicas do git/github
    * [Conta no Github](https://github.com/)
    * [Tutorial Basico - Introdução ao Git](https://www.hostinger.com.br/tutoriais/tutorial-do-git-basics-introducao)
@@ -72,20 +74,47 @@ deve-se realizar, uma leitura basica dos links citados, acompanhado sempre que p
    * > Como qualquer projeto de desenvolvimento de software deve-se manter uma boa padronização e controle do versionamento.
 
 3. Processamento de Imagens: 
-  * [OCR - Visão Geral](https://en.wikipedia.org/wiki/Optical_character_recognition)
-  * [TesseractOCR V4.1.1 ou Superior](https://github.com/tesseract-ocr/tesseract)
-  * [Pytesseract](https://pypi.org/project/pytesseract/)
-    * Atividades:
-      * Instalar
-      * Executar OCR em alguma imagem.
-      * [Tutorial - Using Tesseract OCR with Python](https://www.pyimagesearch.com/2017/07/10/using-tesseract-ocr-python/)
-  
-  * [OpenCV](https://opencv.org/)
-  * [Python-OpenCV](https://pypi.org/project/opencv-python/)
-      * Atividades:
-      * Instalar
-      * [Testar exemplos da documentação para Python](https://docs.opencv.org/master/d9/df8/tutorial_root.html).
-  * Bônus
-    * [Tutorial - A comprehensive guide to OCR with Tesseract, OpenCV and Python](https://nanonets.com/blog/ocr-with-tesseract/)
-  
+   * [OCR - Visão Geral](https://en.wikipedia.org/wiki/Optical_character_recognition)
+   * [TesseractOCR V4.1.1 ou Superior](https://github.com/tesseract-ocr/tesseract)
+   * [Pytesseract](https://pypi.org/project/pytesseract/)
+   * Atividades:
+     * Instalar
+     * Executar OCR em alguma imagem.
+     * [Tutorial - Using Tesseract OCR with Python](https://www.pyimagesearch.com/2017/07/10/using-tesseract-ocr-python/)
+
+   * [OpenCV](https://opencv.org/)
+   * [Python-OpenCV](https://pypi.org/project/opencv-python/)
+   * Atividades:
+     * Instalar
+     * [Testar exemplos da documentação para Python](https://docs.opencv.org/master/d9/df8/tutorial_root.html)
+   * Bônus
+     * [Tutorial - A comprehensive guide to OCR with Tesseract, OpenCV and Python](https://nanonets.com/blog/ocr-with-tesseract/)
+
+4.  Introdução a Funções como Serviço - OpenFaaS
+  * [Function as a Services - OpenFaaS](https://www.openfaas.com/)
+  * **Atividade Obrigatoria:** [Workshop OpenFaaS](https://github.com/openfaas/workshop)
+  * > Realizar Labs: 1,2,3,4,7,8
+
+5. Configuração Minio utilizando Docker:
+   * [Minio](https://docs.min.io/)
+   * [Quickstart Guide](https://docs.min.io/docs/python-client-quickstart-guide.html)
+   * [API Reference](https://docs.min.io/docs/python-client-api-reference.html)
+   > Utilizar a documentação legado para realizar a Docker Installation
+
+# :computer: Exercício Final
+
+Desenvolver uma função OpenFaaS utilizando python, que realize a conexão com a ferramenta de storage Minio, recuperando uma imagem de um bucket de entrada chamado "input", realizando o processamento da mesma aplicando alguma técnica de processamento de imagem listada na documentação do OpenCV (ex:binarização) e salvar o resultado em um bucket de saída.
+
+OBS: Durante todo o processo utilize o github, crie um repositório e use versionamento semântico para organizar o trabalho.
+Por fim gere a documentação basica para utilização da função que você desenvolveu, através do README disponível no github.
+
+Dicas:
+* Ao criar o github, gere um README e adicione a tag de versionamento inicial como V0.1.0 ao repositório.
+* Ao criar a função OpenFaaS utilizar o template python3-debian.
+* Utilize a interface grafica do OpenFaas para realizar a chamada da função de maneira mais simples.
+* Configure o minio conforme a documentação e crie dois buckets, input e output.
+* Podem haver alguns problemas ao conectar no minio pela API do python, basta encontrar qual IP sua maquina mapeou para acessar os containers do docker (normalmente pode ser IP WSL, IP da maquina local).
+* Insira uma imagem de teste no formato png no bucket de entrada (input).
+* Anotar e Relatar as principais dificuldades ao realizar as atividades.
+
     
