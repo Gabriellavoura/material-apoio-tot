@@ -1,4 +1,4 @@
-# Introdução
+# :octocat: Introdução
 Olá, no projeto ToT - Text Of Things você terá uma experiência bem próxima do mercado de trabalho atual, tendo contato com diversas tecnologias utilizadas por gigantes da tecnologia, terá a oportunidade de trabalhar com uma stack atual baseada em microsserviços, robusta e de alta escalabilidade.
 No grupo OCR você irá trabalhar com o desenvolvimento de ferramentas para o processamento de imagens e implementação das ferramentas desenvolvidas com os demais grupos do projeto.
 
@@ -10,7 +10,7 @@ deve-se realizar, uma leitura basica dos links citados, acompanhado sempre que p
 **Ao fim do mesmo contem um exercício que deve ser implementado, utilizando parte dos conceitos apresentados neste documento.**
 
  
-# :books: Conceitos básicos necessários
+# :books: Conceitos básicos
 
 1.  Editor de Texto -> [VSCode](https://code.visualstudio.com/)
 2.  Sistema Operacional -> [Win10/ WSL / Linux (Sugiro Win10 com WSL)](https://docs.microsoft.com/pt-br/windows/wsl/install-win10)
@@ -21,15 +21,16 @@ deve-se realizar, uma leitura basica dos links citados, acompanhado sempre que p
 7.  Function as a Services -> [OpenFaaS](https://www.openfaas.com/)
 8.  Desenvolvendo API'S -> [Flask](https://flask.palletsprojects.com/en/1.1.x/)
 9.  Storage -> [Min.io](https://min.io/)
+10. Mensageria -> [NATS](https://nats.io/)
 
 
 
 # :zap: Roadmap
 Basta seguir o passo a passo para realização da atividade final.
 
-## Configuração do Ambiente 
+## :computer: Configuração do Ambiente 
 1.  OS Win10 com WSL - [Windows Subsystem Linux - WSL](https://docs.microsoft.com/pt-br/windows/wsl/install-win10)
-   * > Caso não possua Hyper-V opte por trabalhar com WSL, pois o desempenho do docker será melhor.
+    * > Caso não possua Hyper-V opte por trabalhar com WSL, pois o desempenho do docker será melhor.
   
 2. Editor de Texto -  [Instalaçao do VSCode](https://code.visualstudio.com/)
    * Pluggins Sugeridos:
@@ -57,7 +58,7 @@ Basta seguir o passo a passo para realização da atividade final.
    * [Minikube](https://minikube.sigs.k8s.io/docs/start/)
       * > Sugiro Minikube e instalar via wsl( selecionar a opção Linux).
 
-## Materiais e Ferramentas
+## :hammer: Materiais e Ferramentas
 
 1. Noções básicas do git/github
    * [Conta no Github](https://github.com/)
@@ -101,14 +102,14 @@ Basta seguir o passo a passo para realização da atividade final.
    * [API Reference](https://docs.min.io/docs/python-client-api-reference.html)
    > Utilizar a documentação legado para realizar a Docker Installation
 
-# :computer: Exercício Final
+# :pencil: Exercício final
 
-Desenvolver uma função OpenFaaS utilizando python, que realize a conexão com a ferramenta de storage Minio, recuperando uma imagem de um bucket de entrada chamado "input", realizando o processamento da mesma aplicando alguma técnica de processamento de imagem listada na documentação do OpenCV (ex:binarização) e salvar o resultado em um bucket de saída.
+Desenvolver uma função OpenFaaS utilizando python, que realize a conexão com a ferramenta de storage Minio, recuperando uma imagem de um bucket de entrada chamado "input", realizando o processamento da mesma com OpenCV, aplicando alguma técnica de processamento de imagem listada na documentação do OpenCV (ex: binarização) e salvar o resultado em um bucket de saída.
 
-OBS: Durante todo o processo utilize o github, crie um repositório e use versionamento semântico para organizar o trabalho.
+**OBS:** Durante todo o processo utilize o github, crie um repositório e use versionamento semântico para organizar o trabalho.
 Por fim gere a documentação basica para utilização da função que você desenvolveu, através do README disponível no github.
 
-Dicas:
+### Dicas:
 * Ao criar o github, gere um README e adicione a tag de versionamento inicial como V0.1.0 ao repositório.
 * Ao criar a função OpenFaaS utilizar o template python3-debian.
 * Utilize a interface grafica do OpenFaas para realizar a chamada da função de maneira mais simples.
