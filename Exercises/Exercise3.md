@@ -15,7 +15,7 @@ Ao receber uma nova mensagem a mesma deve ser processada, ou seja deve-se desser
 
 A mensagem irá conter:
 
-```Json
+```json
     {
      "id": "12345",
      "title": "LoremIpsum",
@@ -36,7 +36,7 @@ Onde os valores das chaves:
 
 O arquivo consiste da própria mensagem, em formato json, resultando em:
 
-```Json
+```json
     LoremIpsum.json
 
         {"id": "12345",
@@ -55,8 +55,8 @@ Após o arquivo deve ser salvo, com extensão no bucket referente ao gênero do 
 ## Arquitetura
 
 A arquitetura pode ser descrita conforme figura a seguir:
-![Architecture](../img/Exercise%201%20-%20Architecture.png)
 
+<img src="../img/Exercise%201%20-%20Architecture.png" alt="Architecture" width="500"/>
 
 ## Requirements
 
