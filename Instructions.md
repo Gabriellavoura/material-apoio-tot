@@ -43,12 +43,13 @@ The repository is organized as follows:
 
 ## Exercise List
 
-1. [WIP: Setting Up S3 Buckets with LocalStack](Exercises/Exercise1.md)
-2. [WIP: Setting Up FIFO SQS Queues with LocalStack](Exercises/Exercise1.md)
-3. [WIP: AWS S3 Bucket Configuration](Exercises/Exercise1.md)
-4. [WIP: Amazon SQS Messaging](Exercises/Exercise1.md)
-5. [WIP: AWS EC2 Instance Setup](Exercises/Exercise1.md)
-6. [WIP: AWS Lambda Function Deployment](Exercises/Exercise1.md)
+1. [Setting Up S3 Buckets with LocalStack](Exercises/Exercise1.md)
+2. [Setting Up FIFO SQS Queues with LocalStack](Exercises/Exercise1.md)
+3. [Developing an API that supports long-running processing](Exercises/Exercise3.md)
+4. [WIP: AWS S3 Bucket Configuration]()
+5. [WIP: Amazon SQS Messaging]()
+6. [WIP: AWS EC2 Instance Setup]()
+7. [WIP: AWS Lambda Function Deployment]()
 
 ## Contributions
 
