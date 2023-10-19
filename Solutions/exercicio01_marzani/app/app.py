@@ -1,7 +1,6 @@
 # Importando bibliotecas
 from flask import Flask
-from response import create_response
-import requests
+from utils.response import create_response
 
 app = Flask(__name__)
 
