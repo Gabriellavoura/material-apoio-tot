@@ -1,14 +1,18 @@
 import json
 import requests
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+URL = os.getenv('URL')
 
 def create_response():
 
     # Fazendo a requisição GET pra healthcheck do localstack e usando de base os dados pra health
     # da própria api
 
-    URL = 'http://127.0.0.1:4566'
-
-    resposta = requests.request('GET', URL + '/health')
+    resposta = requests.request('GET', URL)
     
     status_code = resposta.status_code
 

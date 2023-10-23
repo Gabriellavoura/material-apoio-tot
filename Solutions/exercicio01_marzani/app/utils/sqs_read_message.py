@@ -1,0 +1,25 @@
+import uuid
+
+from sqs_instance    import *
+from botocore.client import ClientError
+
+def read_message(sqs_client, queue_url: str) -> dict:
+    """Get a message from a SQS queue.
+    :param sqs_client:
+    :param queue_url:
+    :return: Message
+    """
+
+    try:
+        response = sqs_client.receive_message(
+            QueueUrl=queue_url)
+
+        return response
+
+    except ClientError as err:
+        logging.error(err)
+        raise Exception(f"[SQS - read_message -> ()] Failed to get a message!\nError: {str(err)}")
+
+# response = read_message(sqs_client, 'http://localhost:4566/000000000000/OutputQueue.fifo')
+# print(response['Messages'])
+# Exemplos acima de utilização do código. Pode começar a ser util para realizar a desserialização etc.
