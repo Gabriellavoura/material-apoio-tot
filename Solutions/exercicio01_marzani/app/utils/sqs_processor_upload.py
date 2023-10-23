@@ -1,22 +1,33 @@
-from s3_upload import *
+import os
 
-def processar_message(message):
+from s3_upload        import *
+from sqs_read_message import *
+from dotenv           import load_dotenv
+
+load_dotenv()
+
+def processar_message(response):
     try:
+
         # Desserialize a mensagem JSON em um dicionário Python
-        message_data = json.loads(message)
+        message_data = response
+
+        body = message_data['Messages'][0]['Body']
+
+        body = json.loads(body)
 
         # Obtenha o nome do arquivo a ser salvo
-        file_name = message_data['title'] + ".json"
+        file_name = body['title'] + ".json"
 
         # Obtenha o nome do bucket com base no gênero (genre)
-        genre = message_data['genre']
+        genre = body['genre']
         bucket_name = genre  # Substitua com seu padrão de nome de bucket
 
         # Faça o upload do arquivo para o bucket no Amazon S3
         s3_client = instanciar_s3()
 
         with open(file_name, 'w') as file:
-            json.dump(message_data, file)
+            json.dump(body, file)
 
         s3_client.upload_file(file_name, bucket_name, file_name)
 
@@ -26,6 +37,10 @@ def processar_message(message):
         print(f'Ocorreu um erro: {e}')
         return False
     
+
+response = read_message(sqs_client, os.getenv('SQS_IN'))
+processar_message(response)
+
 '''
 Exemplo de mensagem
 message = '{"id": "12345","title": "LoremIpsum","author": "John Doe","year": "1960","genre": "romance","summary": "Lorem ipsum dolor sit amet, consectetur adipiscing elit,sed do eiusmod tempor incididuntut labore et dolore magna aliqua."}'
