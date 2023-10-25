@@ -57,6 +57,11 @@ def execute(event):
 
         write_message(sqs_client, os.getenv('SQS_OUT'), mensagem)
 
+            # Lendo a mensagem disparada para a SQS_OUT a fim de visualizar. 
+
+        resposta_output = read_message(sqs_client, os.getenv('SQS_OUT'))
+        print(resposta_output)
+
         # Adicionando função para remover o arquivo localmente e deixar apenas no bucket.
         os.remove(file_name)
         return 1
