@@ -1,6 +1,7 @@
 import logging
 
 from sqs_listener import SqsListener
+from utils.processor_execute      import execute
 
 class ProcessSQSListener(SqsListener):
     def handle_message(self, body, attributes, messages_attributes):

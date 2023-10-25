@@ -1,6 +1,6 @@
 import json
 
-from s3_instance import *
+from utils.s3_instance import *
 from botocore.client   import ClientError
 
 # Função para fazer upload de um objeto em algum bucket.

@@ -1,4 +1,4 @@
-from sqs_instance    import *
+from utils.sqs_instance    import *
 from botocore.client import ClientError
 
 sqs_client = instanciar_sqs()

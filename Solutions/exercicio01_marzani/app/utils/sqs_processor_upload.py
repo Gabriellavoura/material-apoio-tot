@@ -32,6 +32,9 @@ def processar_message(response):
         s3_client.upload_file(file_name, bucket_name, file_name)
 
         print(f'Arquivo {file_name} enviado para o bucket {bucket_name} com sucesso.')
+
+        # Adicionando função para remover o arquivo localmente e deixar apenas no bucket.
+        os.remove(file_name)
         return True
     except Exception as e:
         print(f'Ocorreu um erro: {e}')
