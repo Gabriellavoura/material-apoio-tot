@@ -1,0 +1,5 @@
+flask
+boto3
+pySqsListener
+requests==2.30.0
+gunicorn

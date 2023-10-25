@@ -1,0 +1,1 @@
+gunicorn -w 1 main:app -b 0.0.0.0:4000 --access-logfile=-
