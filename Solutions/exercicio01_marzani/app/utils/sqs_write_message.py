@@ -1,7 +1,7 @@
 import uuid
 
-from sqs_instance    import *
-from botocore.client import ClientError
+from utils.sqs_instance    import *
+from botocore.client       import ClientError
 
 sqs_client = instanciar_sqs()
 
@@ -24,7 +24,7 @@ def write_message(sqs_client, queue_url: str, message) -> dict:
             MessageBody=message,
             MessageDeduplicationId=str(deduplication_id),
             MessageGroupId=str(group_id))
-        print('MENSAGEM ENVIADA COM SUCESSO')
+        print('MENSAGEM DE SUCESSO DISPARADA PARA A OUTPUTQUEUE')
         return response
 
     except ClientError as err:

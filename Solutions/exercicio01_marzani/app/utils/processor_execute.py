@@ -8,6 +8,7 @@ from utils.sqs_instance         import *
 from utils.s3_instance          import *
 from utils.s3_upload            import *
 from utils.sqs_read_message     import *
+from utils.sqs_write_message    import write_message
 
 logger = logging.getLogger()
 logger.setLevel(logging.WARNING)
@@ -49,6 +50,12 @@ def execute(event):
         s3_client.upload_file(file_name, bucket_name, file_name)
 
         logger.warning(f'Arquivo {file_name} enviado para o bucket {bucket_name} com sucesso.')
+
+        mensagem = f'Arquivo {file_name} enviado para o bucket {bucket_name} com sucesso.'
+        # Adicionando função para escrever mensagem na outputqueue.fifo retornando a mensagem de sucesso ao 
+            # Fazer upload do json no respectivo bucket.
+
+        write_message(sqs_client, os.getenv('SQS_OUT'), mensagem)
 
         # Adicionando função para remover o arquivo localmente e deixar apenas no bucket.
         os.remove(file_name)
