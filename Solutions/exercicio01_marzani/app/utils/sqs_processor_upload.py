@@ -6,6 +6,8 @@ from dotenv           import load_dotenv
 
 load_dotenv()
 
+
+# Criando função de processar mensagem da fila SQS para testes.
 def processar_message(response):
     try:
 
@@ -48,8 +50,6 @@ processar_message(response)
 Exemplo de mensagem
 message = '{"id": "12345","title": "LoremIpsum","author": "John Doe","year": "1960","genre": "romance","summary": "Lorem ipsum dolor sit amet, consectetur adipiscing elit,sed do eiusmod tempor incididuntut labore et dolore magna aliqua."}'
 message2 = '{"id": "1234545","title": "Loremasasm","author": "John Doe","year": "1960","genre": "scifi","summary": "Lorem ipsum dolor sit amet, consectetur amagna aliqua."}'
-
-CONSEGUI FAER FUNCIONAR /\ É NESSE FORMATO QUE TEM QUE ESTAR A MESSAGE
 
 processar_message(message)
 processar_message(message2)

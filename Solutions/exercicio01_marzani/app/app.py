@@ -23,6 +23,7 @@ def receive_message():
     return jsonify({'Application': 'Running Polling'}), 200
 
 
+# Função de execução do listener.
 def process():
 
     queue_url = os.getenv('SQS_IN')

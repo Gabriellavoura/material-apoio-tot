@@ -5,8 +5,8 @@ from botocore.client       import ClientError
 
 sqs_client = instanciar_sqs()
 
-# Função para escrever uma mensagem a uma fila SQS. Pode ser util para quando eu realizar a parte da 
-# Input Queue e, posteriormente, ditar para a OutputQueue uma saida. 
+# Função para escrever uma mensagem a uma fila SQS. Útil para disparar mensagem para a OutputQueue
+# Posteriormente ao processamento da InputQueue.
 
 def write_message(sqs_client, queue_url: str, message) -> dict:
     """ Publish a new message to a SQS queue.

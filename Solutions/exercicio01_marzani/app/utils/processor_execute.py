@@ -13,6 +13,8 @@ from utils.sqs_write_message    import write_message
 logger = logging.getLogger()
 logger.setLevel(logging.WARNING)
 
+
+# Função para a execução a partir do listener.
 def execute(event):
 
     logger.warning("Monitoramento...")
@@ -22,13 +24,7 @@ def execute(event):
     try:
         s3_client = instanciar_s3()
 
-        #documents = read_message(sqs_client, URL_QUEUE_PDF)
-        #logger.warning(f"received event-> {event}")
-        # receiptHandle = event['Messages'][0]['ReceiptHandle']
-
-        # req = event['Messages'][0]['Body']
-        # print(event['Messages'][0]['Body'])
-        # print(receiptHandle)
+        # Pegando o corpo da mensagem da InputQueue e fazendo o processamento.
 
         body = event
         logger.warning(f"received message -> {body}")
@@ -38,6 +34,8 @@ def execute(event):
         file_name = body["title"] + ".json"
         logger.warning(f'file name: {file_name}')
 
+        # Pegando o tipo do gênero para a seleção do bucket. Se o nome estiver de acordo com os buckets existentes
+        # o upload será feito no bucket.
         genre = body["genre"]
         bucket_name = genre
 
@@ -47,6 +45,8 @@ def execute(event):
         logger.warning("Finalizando processamento.")
 
         logger.warning("Uploading JSON...")
+
+        # Fazendo o upload no bucket.
         s3_client.upload_file(file_name, bucket_name, file_name)
 
         logger.warning(f'Arquivo {file_name} enviado para o bucket {bucket_name} com sucesso.')

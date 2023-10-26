@@ -7,6 +7,7 @@ load_dotenv()
 
 URL = os.getenv('URL')
 
+# Criando função para formatar a resposta da healthcheck a partir do GET da healthcheck do localstack.
 def create_response():
 
     # Fazendo a requisição GET pra healthcheck do localstack e usando de base os dados pra health

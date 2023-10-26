@@ -3,6 +3,8 @@ from botocore.client import ClientError
 
 sqs_client = instanciar_sqs()
 
+
+# Função para ler mensagem de uma fila sqs.
 def read_message(sqs_client, queue_url: str) -> dict:
     """Get a message from a SQS queue.
     :param sqs_client:
