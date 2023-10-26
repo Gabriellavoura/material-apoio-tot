@@ -1,33 +1,32 @@
 # Importando bibliotecas
 import os
+import logging
 
-from flask                      import Flask
+from flask                      import Flask, jsonify
+from waitress                   import serve
+from threading                  import Thread
 from utils.response             import create_response
 from utils.sqs_instance         import instanciar_sqs
 from dotenv                     import load_dotenv
 from utils.listener             import ProcessSQSListener
+from paste.translogger          import TransLogger
 
 load_dotenv()
 
 app = Flask(__name__)
 
-stat_health = True
-
-# Criando a rota de health tndo por base a função de criação de resposta.
-
-'''@app.route('/health')
-def health():
-
+# Defina rotas e funções para o blueprint
+@app.route('/health', methods=['GET'])
+def health_check():
     # Chamando a função para criar uma resposta HTTP
-
-    return create_response()'''
-
+    return create_response()
 
 @app.route('/')
-def process():
+def receive_message():
+    return jsonify({'Application': 'Running Polling'}), 200
 
-    # Instanciando cliente SQS
-    sqs_client = instanciar_sqs()
+
+def process():
 
     queue_url = os.getenv('SQS_IN')
 
@@ -41,7 +40,6 @@ def process():
     
     print("LISTEN EM EXECUÇÃO")
     process_listener.listen()
-process()
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0',port=5000)
+listen = Thread(target=process)
+listen.start()
