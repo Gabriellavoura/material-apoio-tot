@@ -12,11 +12,14 @@ def create_response():
     # Fazendo a requisição GET pra healthcheck do localstack e usando de base os dados pra health
     # da própria api
 
-    resposta = requests.request('GET', URL)
-    
-    status_code = resposta.status_code
+    resposta = requests.get(URL)
+    print(resposta)
 
-    response_data = resposta.json()
+    data = json.loads(resposta.text)
+    print(data)
+
+    status_code = resposta.status_code
+    print(status_code)
 
     # Função para criar a resposta da API.
         # - STATUS_CODE: código do status
@@ -25,7 +28,7 @@ def create_response():
     try:
         return {
             "statusCode": status_code,
-            "body": response_data
+            "body": data
         }
     
     except Exception as e:

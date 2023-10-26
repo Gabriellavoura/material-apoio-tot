@@ -1,15 +1,11 @@
 # Importando bibliotecas
 import os
-import logging
 
 from flask                      import Flask, jsonify
-from waitress                   import serve
 from threading                  import Thread
 from utils.response             import create_response
-from utils.sqs_instance         import instanciar_sqs
 from dotenv                     import load_dotenv
 from utils.listener             import ProcessSQSListener
-from paste.translogger          import TransLogger
 
 load_dotenv()
 
@@ -21,8 +17,9 @@ def health_check():
     # Chamando a função para criar uma resposta HTTP
     return create_response()
 
-@app.route('/')
+@app.route('/', methods=['GET'])
 def receive_message():
+    # return jsonify({'Application': 'Running Polling'}), 200
     return jsonify({'Application': 'Running Polling'}), 200
 
 

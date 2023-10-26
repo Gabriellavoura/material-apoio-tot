@@ -23,6 +23,8 @@ awslocal sqs send-message --queue-url http://localhost:4566/000000000000/InputQu
 
 awslocal sqs send-message --queue-url http://localhost:4566/000000000000/InputQueue.fifo --message-group-id "testioaop" --message-deduplication-id "testioaop" --message-body '{"id": "1234567", "title":"LoremIpsumDolors", "author": "John Doe", "year":"1960", "genre":"romance", "summary":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua de la Muerte."}'
 
-
+awslocal sqs send-message --queue-url http://localhost:4566/000000000000/InputQueue.fifo --message-group-id "salvarnobucket" --message-deduplication-id "salvarnobucket" --message-body '{"id": "444444", "title":"Salvandonobucket", "author": "Marzani", "year":"1960", "genre":"scifi", "summary":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua de la Muerte."}'
 
 awslocal sqs send-message --queue-url http://localhost:4566/000000000000/InputQueue.fifo --message-group-id "salvarnobucket" --message-deduplication-id "salvarnobucket" --message-body '{"id": "444444", "title":"Salvandonobucket", "author": "Marzani", "year":"1960", "genre":"scifi", "summary":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua de la Muerte."}'
+
+awslocal sqs send-message --queue-url http://localhost:4566/000000000000/InputQueue.fifo --message-group-id "testefinal" --message-deduplication-id "testefinal" --message-body '{"id": "12", "title":"teste_final", "author": "Marzani", "year":"1960", "genre":"romance", "summary":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua de la Muerte."}'

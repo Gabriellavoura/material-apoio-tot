@@ -56,11 +56,7 @@ def execute(event):
             # Fazer upload do json no respectivo bucket.
 
         write_message(sqs_client, os.getenv('SQS_OUT'), mensagem)
-
-            # Lendo a mensagem disparada para a SQS_OUT a fim de visualizar. 
-
-        resposta_output = read_message(sqs_client, os.getenv('SQS_OUT'))
-        print(resposta_output)
+        logger.warning(f'Mensagem de sucesso com {file_name} e {bucket_name} disparada para a OutputQueue')
 
         # Adicionando função para remover o arquivo localmente e deixar apenas no bucket.
         os.remove(file_name)
