@@ -1,15 +1,51 @@
 # Desenvolvimento de uma API que suporta longas durações de processamento
 
-### Objetivo:
-- Criação de uma API Flask, com duas rotas não bloqueantes.
-- Essa API Flask precisa ler o conteúdo de uma mensagem SQS e publicar arquivos em buckets s3.
+
+### Ferramentas utilizadas:
+- Git;
+
+- Localstack;
+
+- Flask;
+
+- Docker;
+
+- Gunicorn;
+
+- PySQSListener.
 
 ### Descrição:
+- API Flask, com duas rotas não bloqueantes:    
 
-- Rota `/health` para checar o healthcheck do container, que deve retornar o código http correto, conforme normas para uma API REST.
-- Rota `/` para realizar o pooling de mensagens na fila de entrada.
+    - Rota `/health` para checar o healthcheck do container, que deve retornar o código http correto, conforme normas para uma API REST. Nesta API, a rota `/health` está retornando a healthcheck do localstack através de uma requisição GET. Ao realizar o GET nesta rota, o retorno terá a seguinte representação como base:
 
-Ao receber uma nova mensagem, a mesma deve ser processada, ou seja, deve-se desserealizar a mensagem recebida em um dicionário para consumir os valores.
+        ```json
+        {
+        "body": {
+            "edition": "community",
+            "services": {
+            "acm": "available",
+            ...
+            },
+            "version": "2.3.3.dev"
+        },
+        "statusCode": 200
+        }
+        ```
+
+    - Rota `/` para realizar o pooling de mensagens na fila de entrada. Para isso, utilizou-se:
+
+        - 2 Buckets do S3:
+            - Um para salvar arquivos de Scifi;
+
+            - Um para salvar arquivos de Romance.
+            
+        - 2 Filas SQS do tipo FIFO:
+            - InputQueue - Para receber as mensagens que serão desserializadas para posterior upload nos respectivos buckets.
+
+            - OutpuQueue - Irá ser utilizada para disparo de uma mensagem após o sucesso de realização do upload do JSON, possuindo dados de nome do arquivo e bucket.
+
+Ao receber uma nova mensagem, a mesma será processada continuamente, ou seja, será desserealizada a mensagem recebida em um dicionário para consumir os valores. Para manter o processo monitorando a fila, utilizou-se o PySQSListener.
 
 A mensagem irá conter:
 
@@ -28,21 +64,10 @@ A mensagem irá conter:
 ```
 
 Sendo que:
-- `title`: nome o arquivo a ser salvo no bucket.
+- `title`: nome doo arquivo a ser salvo no bucket.
 - `genre`: define qual bucket o arquivo será salvo. 
 
-O arquivo consiste da própria mensagem, em formato json e deve ser salvo, com extensão no bucket referente ao gênero do mesmo.
+O arquivo consiste da própria mensagem, em formato json e será salvo, com extensão no bucket referente ao gênero do mesmo.
 
-- Utilizará-se 2 buckets:
-    - Um para salvar arquivos de Scifi;
-    - Um para salvar arquivos de Romance.
-
-- Utilizará-se 2 filas SQS do tipo FIFO:
-    - InputQueue
-    - OutputQueue
-
-### Ferramentas utilizadas:
-- Git
-- Localstack
-- Flask
-- Docker
+### Instalação:
+..................
