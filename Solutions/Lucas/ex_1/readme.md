@@ -4,7 +4,7 @@ This is a project that I did to practice aws sqs and s3
 
 ## Folder structure
 
-- **env.py**: set env variables to this file.
+- **config/env.py**: set env variables to this file.
 - **requirements.txt**: add application dependencies here.
 - **localstack_setup.sh**: use this file to setup your localstack with the necessary aws services for local testing.
 - **gunicorn_starter.sh**: this file has the command to start gunicorn; modify this file to change gunicorn starting settings.

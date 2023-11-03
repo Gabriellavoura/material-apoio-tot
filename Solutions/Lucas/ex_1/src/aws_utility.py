@@ -1,5 +1,5 @@
-from   decouple import config
-from   .        import data_validation
+from   config import env
+from   .      import data_validation
 import boto3
 import json
 import uuid
@@ -12,10 +12,10 @@ def aws_client(service):
 
     return boto3.client(
         service_name=service,
-        endpoint_url=config('AWS_HOST'),
-        region_name=config('AWS_DEFAULT_REGION'),
-        aws_access_key_id=config('AWS_KEY'), 
-        aws_secret_access_key=config('AWS_SECRET')
+        endpoint_url=env.AWS_HOST,
+        region_name=env.AWS_DEFAULT_REGION,
+        aws_access_key_id=env.AWS_KEY, 
+        aws_secret_access_key=env.AWS_SECRET
     )
 
 def pool_message(sqs_client):
@@ -26,7 +26,7 @@ def pool_message(sqs_client):
     try:
         # Receive message from SQS queue
         response = sqs_client.receive_message(
-            QueueUrl=config('SQS_URL'),
+            QueueUrl=env.SQS_URL,
             AttributeNames=[
                 'SentTimestamp'
             ],
@@ -46,7 +46,7 @@ def pool_message(sqs_client):
             
             # Delete received message from queue
             sqs_client.delete_message(
-                QueueUrl=config('SQS_URL'),
+                QueueUrl=env.SQS_URL,
                 ReceiptHandle=receipt_handle
             )
 
@@ -97,7 +97,7 @@ def input_sqs(data):
     # Create SQS client
     sqs = aws_client('sqs')
 
-    queue_url = config('SQS_URL')
+    queue_url = env.SQS_URL
     unique_id = uuid.uuid4()
     unique_id_str = str(unique_id)
 
@@ -110,6 +110,5 @@ def input_sqs(data):
     )
 
     logging.warning(response['MessageId'])
-
 
     return True
