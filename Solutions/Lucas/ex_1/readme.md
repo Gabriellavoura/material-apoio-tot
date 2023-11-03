@@ -2,6 +2,21 @@
 
 This is a project that I did to practice aws sqs and s3 
 
+## Folder structure
+
+- **env.py**: set env variables to this file.
+- **requirements.txt**: add application dependencies here.
+- **localstack_setup.sh**: use this file to setup your localstack with the necessary aws services for local testing.
+- **gunicorn_starter.sh**: this file has the command to start gunicorn; modify this file to change gunicorn starting settings.
+- **app.py**: Entrypoint for the application; all the routes are defined here; add news routes here.
+- **/src**: this folder has the source folder for the application; add necessary modules for the application here.
+- **/handler**: this folder has the handlers of the routes in the app.py. Each route should have a handler file here responsible for handling requests. 
+
+## How to run the application
+
+- **Container building command**: `docker build -t myapplication:latest .`
+- **Container running command**: `docker run -dit -p 5000:5000 myapplication *args`
+
 ## Routes
 
 ### 1. Initialization Route
@@ -45,7 +60,5 @@ This is a project that I did to practice aws sqs and s3
     - 200: Server is up
 
 ## Observations
-
-- To see log messages being printed, it's recommended to run the Docker container with the `-it` flag.
 
  🚀

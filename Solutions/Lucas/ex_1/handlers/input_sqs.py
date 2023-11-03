@@ -1,11 +1,11 @@
 import json
 from   flask import request, Response
 from   src import data_validation, aws_utility
-
+import logging
 
 def handle():
-    print('---------------------------------------------')
-    print('PUTTING MESSAGE INTO QUEUE')
+    logging.warning('---------------------------------------------')
+    logging.warning('PUTTING MESSAGE INTO QUEUE')
 
     raw_data   = request.data
     object     = data_validation.validate_pooling_data(raw_data)
@@ -19,7 +19,7 @@ def handle():
         })
     
     elif (aws_utility.input_sqs(input_data)):
-        print('Message putted into QUEUE')
+        logging.warning('Message putted into QUEUE')
         status = 200
         body = json.dumps({
             'message': 'Message putted into QUEUE',
@@ -31,6 +31,6 @@ def handle():
             'message': 'Something went wrong...',
             'status': status,
         })
-    print('---------------------------------------------')
+    logging.warning('---------------------------------------------')
     
     return Response(response=body, status=status)

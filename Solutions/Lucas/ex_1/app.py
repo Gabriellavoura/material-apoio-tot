@@ -20,7 +20,3 @@ def input():
 @app.route('/health', methods=['GET'])
 def healthcheck():
     return healthcheck_handler.handle()
-
-# Flask server in debug mode
-""" if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True) """

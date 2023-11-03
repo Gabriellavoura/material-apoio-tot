@@ -3,8 +3,13 @@ from   .        import data_validation
 import boto3
 import json
 import uuid
+import logging
 
 def aws_client(service):
+    """ Function to create a boto3 client
+        of an AWS service.
+    """
+
     return boto3.client(
         service_name=service,
         endpoint_url=config('AWS_HOST'),
@@ -14,6 +19,10 @@ def aws_client(service):
     )
 
 def pool_message(sqs_client):
+    """ Function to pool a message from the SQS QUEUE
+        and delete the message after poolling it.
+    """
+
     try:
         # Receive message from SQS queue
         response = sqs_client.receive_message(
@@ -48,12 +57,16 @@ def pool_message(sqs_client):
         else:
             return False
     except:
-        print('AWS connection failed...')
+        logging.warning('AWS connection failed...')
         return False
     
 def save_message(s3_client, message):
+    """ Function to save a message that has 
+        been validated into a bucket.  
+    """
+
     try:
-        print('Putting message into the bucket...')
+        logging.warning('Putting message into the bucket...')
 
         # Setting params for s3
         bucket_name  = str(message['genre']).lower()
@@ -67,16 +80,19 @@ def save_message(s3_client, message):
             Body=file_content
         )
 
-        print('Object <{}> saved'.format(object_key))
+        logging.warning('Object <{}> saved'.format(object_key))
 
         return True
     except:
         # Logging error before returning false
-        print('AWS connection failed...')
-        print('Object NOT saved')
+        logging.warning('AWS connection failed...')
+        logging.warning('Object NOT saved')
         return False
 
 def input_sqs(data):
+    """ Function to send a message to an AWS SQS
+        QUEUE.
+    """
     
     # Create SQS client
     sqs = aws_client('sqs')
@@ -93,7 +109,7 @@ def input_sqs(data):
         MessageBody=data
     )
 
-    print(response['MessageId'])
+    logging.warning(response['MessageId'])
 
 
     return True

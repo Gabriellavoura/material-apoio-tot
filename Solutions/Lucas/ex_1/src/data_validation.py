@@ -1,6 +1,11 @@
 import json
+import logging
 
 def validate_pooling_data(data):
+    """ Function to check if incoming data 
+        is valid for processing. 
+    """
+
     try:
         # Loading json as an object
         object = json.loads(data)
@@ -14,24 +19,24 @@ def validate_pooling_data(data):
             value = str(object[param]).strip()
             if len(value) < 1:
                 # Logging error before returning false
-                print('Invalid Key: <{}> can not be empty'.format(param))
+                logging.warning('Invalid Key: <{}> can not be empty'.format(param))
                 return False
         
         if str(object['genre']).lower() not in ['romance', 'scifi']:
             #Logging invalid genre message before returning false 
-            print('Message with id <{}> contains invalid genre'.format(object['id']))
+            logging.warning('Message with id <{}> contains invalid genre'.format(object['id']))
             return False
         elif len(str(object['title'])) > 230:
             #Logging invalid title message before returning false
-            print('Message with id <{}> contains invalid title: title > 230 chr'.format(object['id']))
+            logging.warning('Message with id <{}> contains invalid title: title > 230 chr'.format(object['id']))
             return False
         return object
     except json.JSONDecodeError as e:
         # Logging error before returning false
-        print('Invalid Format: Body is not valid JSON')
+        logging.warning('Invalid Format: Body is not valid JSON')
         return False
     except KeyError as e:
         # Logging error before returning false
-        print('Missing Key: at least one required key is missing')
+        logging.warning('Missing Key: at least one required key is missing')
         return False
     
