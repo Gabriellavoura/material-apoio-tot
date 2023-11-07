@@ -1,7 +1,5 @@
 
 # Material de Apoio ToT - Exercício 1
-  
-
 O objetivo do exercício é construir uma API flask com duas rotas não bloqueantes e paralelas, de forma que suporte processamentos longos (horas de duração):
 
 ### Rotas
