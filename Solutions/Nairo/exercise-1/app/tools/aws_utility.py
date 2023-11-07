@@ -1,10 +1,6 @@
 import boto3
-import json
-import os
-import logging
 import uuid
 from app.env import *
-from botocore.exceptions import ClientError
 
 def instantiate_aws_client(service):
     client = boto3.client(service, endpoint_url=ENDPOINT_URL,
@@ -23,7 +19,7 @@ def list_queues(sqs_client) -> list:
         return list_of_queues
 
     except Exception as err:
-        raise Exception({str(err)})
+        return err
 
 
 def read_message(sqs_client, queue_url: str) -> dict:
@@ -32,7 +28,7 @@ def read_message(sqs_client, queue_url: str) -> dict:
         return response
 
     except Exception as err:
-        raise Exception({str(err)})
+        return err
 
 def write_message(sqs_client, queue_url: str, message) -> dict:
     try:
@@ -45,18 +41,17 @@ def write_message(sqs_client, queue_url: str, message) -> dict:
             MessageGroupId=str(group_id))
         return response
 
-    except ClientError as err:
-        logging.error(err)
-        raise Exception(f"[SQS - write_message -> ()] Failed to send a message!\nError: {str(err)}")
+    except Exception as err:
+        return err
 
 
-def delete_message(sqs_client, queue_url: str, recipt_handle: str) -> bool:
+def delete_message(sqs_client, queue_url: str, receipt_handle: str) -> bool:
     try:
-        response = sqs_client.delete_message(QueueUrl=queue_url, ReceiptHandle=recipt_handle)
+        response = sqs_client.delete_message(QueueUrl=queue_url, ReceiptHandle=receipt_handle)
         return response
 
     except Exception as err:
-        raise Exception({str(err)})
+        return err
     
 
 def list_buckets_names(s3_client) -> list:
@@ -69,7 +64,7 @@ def list_buckets_names(s3_client) -> list:
         return bucket_names
 
     except Exception as err:
-        raise Exception({str(err)})
+        return err
 
 def list_buckets_content_keys(s3_client, bucket_name) -> list:
     try:
@@ -84,14 +79,12 @@ def list_buckets_content_keys(s3_client, bucket_name) -> list:
         return keys
     
     except Exception as err:
-        raise Exception({str(err)})
+        return err
     
 def upload_file(s3_client, bucket:str, key:str, body:str) -> bool:
-    # Upload the file
     try:
-        s3_client.put_object(Bucket=bucket, Key=key, Body=body)
-        return True
+        response = s3_client.put_object(Bucket=bucket, Key=key, Body=body)
+        return response
     
-    except ClientError as e:
-        logging.error(e)
-        return False
+    except Exception as err:
+        return err
