@@ -9,13 +9,13 @@ import json
 
 
 def process():
-    process_listener = ProcessSQSListener("inputQueue",
-                                          endpoint_name = ENDPOINT_URL,
-                                          aws_access_key= AWS_ACCESS_KEY_ID,
-                                          aws_secret_key= AWS_SECRET_ACCESS_KEY,
-                                          queue_url= INPUT_QUEUE_URL,
-                                          region_name= REGION_NAME,
-                                          force_delete= True)
+    process_listener = ProcessSQSListener(INPUT_QUEUE_URL,
+                                          endpoint_name=ENDPOINT_URL,
+                                          aws_access_key=AWS_ACCESS_KEY_ID,
+                                          aws_secret_key=AWS_SECRET_ACCESS_KEY,
+                                          queue_url=INPUT_QUEUE_URL,
+                                          region_name=REGION_NAME,
+                                          force_delete=True)
     process_listener.listen()
 
 app = Flask(__name__, instance_relative_config=False)
@@ -29,7 +29,7 @@ def health():
     try:
         s3_client = instantiate_aws_client('s3')
         sqs_client = instantiate_aws_client('sqs')
-        response = requests.get('http://host.docker.internal:4566/health')
+        response = requests.get(ENDPOINT_URL + '/health')
         data = json.loads(response.text)
         services = data['services']
         active_services = {'sqs': services['sqs'], 's3': services['s3']}
