@@ -1,0 +1,4 @@
+Flask==2.0.1
+Werkzeug==2.0.1
+boto3==1.28.70
+gunicorn==21.0.1
