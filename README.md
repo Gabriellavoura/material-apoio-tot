@@ -111,34 +111,34 @@ Todas as filas devem ser do tipo `.fifo`.
 
 Para que a entrega seja considerada completa, você deve incluir:
 
-* API Flask funcional com endpoint POST /upload para envio de imagem, rota de /healthcheck e worker em /process
-
-* Integração com AWS (via LocalStack):
+* **API Flask funcional com endpoint POST /upload para envio de imagem, rota de /healthcheck e worker em /process**
+* **Integração com AWS (via LocalStack):**
     * Consumo de mensagem da fila `new-image-input` (SQS)
     * Upload da imagem no bucket `image-input` (S3)
     * Upload da imagem processada no bucket `image-output` (S3)
     * Envio de mensagem para a fila `new-image-processed` (SQS)
 
-* Worker Flask:
+* **Worker Flask:**
     * Consome mensagens da fila `new-image-input`
     * Processa a imagem com OpenCV
     * Salva resultado no bucket `image-output` (S3)
     * Publica mensagem final na fila `new-image-processed` (SQS)
 
-* Estrutura dockerizada com docker-compose
-* Buckets e filas criadas no startup do container (pode ser via entrypoint.sh, init.py ou script Makefile)
-* Documentação da API com Swagger (OpenAPI 3.0):
+* **Estrutura dockerizada com docker-compose**
+* **Buckets e filas criadas no startup do container (pode ser via entrypoint.sh, init.py ou script Makefile)**
+* **Documentação da API com Swagger (OpenAPI 3.0):**
     >💡 Inclua a especificação no formato YAML ou JSON, ou useflask-restx ou apispec para gerar automaticamente
      * Documente ao menos:
          * Endpoint /upload, /healthcheck e /process
          * Códigos de resposta
 
-* README do repositório com instruções para execução local, incluindo:
+* **README do repositório com instruções para execução local, incluindo:**
+    * Diagrama da aplicação (Excalidraw ou draw.io)
     * Como subir os containers
     * Como testar a API
     * Como visualizar a documentação Swagger
 
-* Testes unitários e/ou de integração para os principais componentes:
+* **Testes unitários e/ou de integração para os principais componentes:**
     * Upload de imagem na API
     * Publicação e consumo da fila
     * Processamento de imagem
