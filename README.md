@@ -150,8 +150,6 @@ Para que a entrega seja considerada completa, você deve incluir:
 
 ### Dicas:
 * Ao criar o github, gere um README e adicione a tag de versionamento inicial como V0.1.0 ao repositório.
-* Podem haver alguns problemas ao conectar no minio pela API do python, basta encontrar qual IP sua maquina mapeou para acessar os containers do docker (normalmente pode ser IP WSL, IP da maquina local).
-* Insira uma imagem de teste no formato png no bucket de entrada (input).
 * Anotar e Relatar as principais dificuldades ao realizar as atividades.
 
     
