@@ -103,7 +103,10 @@ Basta seguir o passo a passo para realização da atividade final.
 
 
 # :pencil: Exercício final 
-A equipe de precisa de uma aplicação Flask que execute um pipeline de processamento de imagens, utilizando serviços AWS via LocalStack. O sistema deve permitir que um cliente envie imagens `.png` via API, que serão armazenadas no bucket `image-input` (S3). Após o upload, a aplicação deve enviar uma mensagem para a fila `new-image-input` (SQS) notificando a chegada da imagem. Um worker em Flask deverá rodar em segundo plano, realizando polling na fila `new-image-input`; ao identificar uma nova mensagem, ele deve recuperar a imagem do bucket S3 `image-input`, processá-la com OpenCV (por exemplo, aplicando binarização), armazenar o resultado no bucket S3 `image-processed` e enviar uma nova notificação para a fila (SQS) `new-image-processed` , sinalizando a conclusão do processamento.
+A equipe de precisa de uma aplicação Flask que execute um pipeline de processamento de imagens, utilizando serviços AWS via LocalStack. 
+O sistema deve permitir que um cliente envie imagens `.png` via API, que serão armazenadas no bucket `image-input` (S3). 
+Após o upload, a aplicação deve enviar uma mensagem para a fila `new-image-input` (SQS) notificando a chegada da imagem. 
+Um worker em Flask deverá rodar em segundo plano, realizando polling na fila `new-image-input`; ao identificar uma nova mensagem, ele deve recuperar a imagem do bucket S3 `image-input`, processá-la com OpenCV (por exemplo, aplicando binarização), armazenar o resultado no bucket S3 `image-processed` e enviar uma nova notificação para a fila (SQS) `new-image-processed` , sinalizando a conclusão do processamento.
 
 Todas as filas devem ser do tipo `.fifo`.
 
@@ -143,7 +146,7 @@ Para que a entrega seja considerada completa, você deve incluir:
     * Publicação e consumo da fila
     * Processamento de imagem
     * Upload no bucket de saída
-    >💡 Sugestão: use pytest para testes e flask-testing para facilitar simulações de requisições à API.
+    >💡 Sugestão: use unittest ou pytest para realizar os testes automatizados.
 
 **OBS:** Durante todo o processo utilize o github, crie um repositório e use versionamento semântico para organizar o trabalho.
 
