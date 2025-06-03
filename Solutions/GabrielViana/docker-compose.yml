@@ -1,0 +1,47 @@
+
+
+services:
+  localstack:
+    container_name: "${LOCALSTACK_DOCKER_NAME:-localstack-main}"
+    image: localstack/localstack:3.0
+    ports:
+      - "127.0.0.1:4566:4566"            # LocalStack Gateway
+      - "127.0.0.1:4510-4559:4510-4559"  # external services port range
+    environment:
+      - DEBUG=${DEBUG:-0}
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - AWS_DEFAULT_REGION=us-east-1
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+    volumes:
+      - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    networks:
+      - app-network
+
+  flask-app:
+    build: .
+    container_name: flask-image-processor
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=development
+      - AWS_ENDPOINT_URL=http://localstack:4566
+      - AWS_DEFAULT_REGION=us-east-1
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+    volumes:
+      - .:/app
+      - ./temp:/tmp/images
+    depends_on:
+      - localstack
+    networks:
+      - app-network
+    command: ["./entrypoint.sh"]
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  localstack-data:
