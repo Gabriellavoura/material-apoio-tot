@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: flask-app
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+    depends_on:
+      - localstack
+
+  localstack:
+    image: localstack/localstack:2.3
+    container_name: localstack
+    ports:
+      - "4566:4566"  # Porta principal para todos os serviços
+    environment:
+      - SERVICES=s3,sqs
+      - DEFAULT_REGION=us-east-1
+      - DATA_DIR=/tmp/localstack/data
+    volumes:
+      - ./docker/bootstrap_localstack.sh:/etc/localstack/init/ready.d/bootstrap_localstack.sh
+      - ./teste.png:/docker/teste.png  # Opcional, para envio automático
+      - localstack_data:/tmp/localstack
+
+volumes:
+  localstack_data:

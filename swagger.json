@@ -1,0 +1,142 @@
+{
+    "swagger": "2.0",
+    "basePath": "/",
+    "paths": {
+        "/healthcheck": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Status OK",
+                        "schema": {
+                            "$ref": "#/definitions/HealthCheck"
+                        }
+                    }
+                },
+                "description": "Verifica se o servi\u00e7o est\u00e1 rodando",
+                "operationId": "get_health_check",
+                "tags": [
+                    "default"
+                ]
+            }
+        },
+        "/images/upload": {
+            "post": {
+                "responses": {
+                    "400": {
+                        "description": "Erro: Nenhum arquivo enviado",
+                        "schema": {
+                            "$ref": "#/definitions/UploadError"
+                        }
+                    },
+                    "201": {
+                        "description": "Upload realizado com sucesso",
+                        "schema": {
+                            "$ref": "#/definitions/UploadResponse"
+                        }
+                    }
+                },
+                "description": "Recebe uma imagem PNG e envia para o S3 + SQS",
+                "operationId": "post_upload_image",
+                "parameters": [
+                    {
+                        "description": "Imagem PNG para upload",
+                        "in": "formData",
+                        "type": "file",
+                        "required": true,
+                        "name": "image"
+                    }
+                ],
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "tags": [
+                    "images"
+                ]
+            }
+        },
+        "/process": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Worker rodando",
+                        "schema": {
+                            "$ref": "#/definitions/ProcessStatus"
+                        }
+                    }
+                },
+                "description": "Indica se o worker est\u00e1 rodando",
+                "operationId": "get_process_status",
+                "tags": [
+                    "default"
+                ]
+            }
+        }
+    },
+    "info": {
+        "title": "ToT API",
+        "version": "1.0",
+        "description": "Text Of Things API"
+    },
+    "produces": [
+        "application/json"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "tags": [
+        {
+            "name": "default",
+            "description": "Default namespace"
+        },
+        {
+            "name": "images",
+            "description": "Image operations"
+        }
+    ],
+    "definitions": {
+        "HealthCheck": {
+            "properties": {
+                "status": {
+                    "type": "string",
+                    "example": "ok"
+                }
+            },
+            "type": "object"
+        },
+        "ProcessStatus": {
+            "properties": {
+                "worker": {
+                    "type": "string",
+                    "example": "running"
+                }
+            },
+            "type": "object"
+        },
+        "UploadError": {
+            "properties": {
+                "error": {
+                    "type": "string",
+                    "example": "No image file provided"
+                }
+            },
+            "type": "object"
+        },
+        "UploadResponse": {
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "example.png uploaded and queued successfully"
+                }
+            },
+            "type": "object"
+        }
+    },
+    "responses": {
+        "ParseError": {
+            "description": "When a mask can't be parsed"
+        },
+        "MaskError": {
+            "description": "When any error occurs on mask"
+        }
+    }
+}
