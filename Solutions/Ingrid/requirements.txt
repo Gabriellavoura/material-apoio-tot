@@ -1,0 +1,8 @@
+numpy==1.24.3
+flask==2.3.3
+boto3==1.28.38
+opencv-python==4.8.0.76
+pillow==10.0.0
+python-dotenv==1.0.0
+localstack==2.3.0
+awscli-local==0.21.1

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <title>Enviar Imagem</title>
+</head>
+<body>
+    <h1>{{ status_message }}</h1>
+
+    {% if original_url %}
+        <h3>Imagem Original:</h3>
+        <img src="{{ original_url }}" alt="Imagem Original" style="max-width:300px;" />
+        <p>Armazenada no bucket: <strong>{{ s3_input_bucket }}</strong></p>
+    {% endif %}
+
+    <div id="processing-section">
+        {% if processed_url %}
+            <h3>Imagem Processada:</h3>
+            <img src="{{ processed_url }}" alt="Imagem Processada" style="max-width:300px;" />
+            <p>Processamento concluído com sucesso!</p>
+            <p>Imagem salva no bucket: <strong>{{ s3_processed_bucket }}</strong></p>
+        {% elif original_url %}
+            <p id="processing-message">Imagem está em processamento...</p>
+        {% endif %}
+    </div>
+
+    {% if show_form %}
+        <form action="{{ url_for('routes.home') }}" method="post" enctype="multipart/form-data">
+            <input type="file" name="image" accept=".png" required />
+            <button type="submit">Enviar</button>
+        </form>
+    {% endif %}
+
+    {% if not show_form and original_url %}
+        <hr>
+        <h3>📥 Gostaria de adicionar uma nova imagem ao bucket?</h3>
+        <form action="{{ url_for('routes.home') }}" method="get">
+            <button type="submit">Adicionar nova imagem</button>
+        </form>
+    {% endif %}
+
+    {% if saved_images %}
+        <hr>
+        <h3>🗂️ Lista de imagens armazenadas no bucket: <strong>{{ s3_input_bucket }}</strong></h3>
+        <ul>
+            {% for img in saved_images %}
+                <li><a href="http://localhost:4566/{{ s3_input_bucket }}/{{ img }}" target="_blank">{{ img }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if image_id %}
+    <script>
+        const imageId = "{{ image_id }}";
+        const checkUrl = `/check_processed/${imageId}`;
+        const interval = setInterval(() => {
+            fetch(checkUrl)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.processed) {
+                        clearInterval(interval);
+
+                        const section = document.getElementById("processing-section");
+                        section.innerHTML = `
+                            <h3>Imagem Processada:</h3>
+                            <img src="${data.processed_url}" alt="Imagem Processada" style="max-width:300px;" />
+                            <p>Processamento concluído com sucesso!</p>
+                            <p>Imagem salva no bucket: <strong>{{ s3_processed_bucket }}</strong></p>
+                        `;
+                    }
+                })
+                .catch(err => {
+                    console.error('Erro ao verificar processamento:', err);
+                });
+        }, 3000);
+    </script>
+    {% endif %}
+</body>
+</html>
