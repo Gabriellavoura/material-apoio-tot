@@ -1,5 +1,0 @@
-flask==3.0.0
-boto3==1.28.74
-pySqsListener==0.9.0
-requests==2.30.0
-gunicorn==21.2.0
