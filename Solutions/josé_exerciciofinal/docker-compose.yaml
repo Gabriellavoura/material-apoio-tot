@@ -1,0 +1,36 @@
+services:
+  localstack:
+    container_name: localstack-1
+    image: localstack/localstack:latest
+    ports:
+      - "4566:4566"
+    environment:
+      - SERVICES=s3,sqs
+      - AWS_DEFAULT_REGION=us-east-1
+    volumes:
+      - ./entrypoint.sh:/etc/localstack/init/ready.d/entrypoint.sh
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4566/_localstack/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  app:
+    build: .
+    container_name: app-1
+    depends_on:
+      localstack:
+        condition: service_healthy
+    environment:
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - AWS_DEFAULT_REGION=us-east-1
+      - FLASK_APP=app
+      - FLASK_ENV=development
+      - S3_ENDPOINT=http://localstack:4566
+      - SQS_ENDPOINT=http://localstack:4566
+    volumes:
+      - .:/app
+    command: flask run --host=0.0.0.0 --port=5000
+    ports:
+      - "5000:5000"

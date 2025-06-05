@@ -1,0 +1,23 @@
+openapi: 3.0.0
+info:
+  title: Image Pipeline API
+  version: "1.0"
+paths:
+  /image/upload:
+    post:
+      summary: Upload de imagem
+      responses:
+        "200":
+          description: Imagem enviada com sucesso
+  /image/healthcheck:
+    get:
+      summary: Verifica status da API
+      responses:
+        "200":
+          description: API ativa
+  /image/process:
+    post:
+      summary: Executa processamento da fila
+      responses:
+        "200":
+          description: Worker executado
