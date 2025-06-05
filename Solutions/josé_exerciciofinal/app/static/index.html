@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Image Processor</title>
+    <style>
+        body {
+            font-family: Arial;
+            background-color: #f4f4f4;
+            margin: 20px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .gallery img {
+            max-width: 300px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .status-box {
+            background: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Upload de Imagem</h1>
+
+    <form id="upload-form" enctype="multipart/form-data">
+        <input type="file" name="file" accept="image/png" required><br><br>
+        <button type="submit">Enviar Imagem</button>
+    </form>
+
+    <button onclick="processar()">Processar Imagem</button>
+
+    <h2>Status:</h2>
+    <div id="status" class="status-box"></div>
+
+    <h2>Imagens Processadas:</h2>
+    <div class="gallery" id="processed-gallery"></div>
+
+    <script>
+        const status = document.getElementById('status');
+        const gallery = document.getElementById('processed-gallery');
+
+        document.getElementById('upload-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(e.target);
+            status.textContent = 'Enviando imagem...';
+
+            const response = await fetch('/image/upload', {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+            status.textContent = JSON.stringify(result, null, 2);
+
+            if(response.ok) {
+                carregarProcessados();
+            }
+        });
+
+        async function processar() {
+            status.textContent = 'Processando imagem...';
+
+            const response = await fetch('/image/process', {
+                method: 'POST'
+            });
+
+            const result = await response.json();
+            status.textContent = JSON.stringify(result, null, 2);
+
+            if(response.ok) {
+                carregarProcessados();
+            }
+        }
+
+        async function carregarProcessados() {
+            gallery.innerHTML = 'Carregando...';
+            try {
+                const response = await fetch('/image/processed');
+                const data = await response.json();
+
+                if(response.ok) {
+                    gallery.innerHTML = '';
+                    data.processed_files.forEach(filename => {
+                        const img = document.createElement('img');
+                        img.src = `/image/processed/${filename}`;
+                        img.alt = filename;
+                        gallery.appendChild(img);
+                    });
+                } else {
+                    gallery.textContent = 'Erro ao carregar imagens processadas';
+                }
+            } catch {
+                gallery.textContent = 'Erro ao carregar imagens processadas';
+            }
+        }
+
+        // Carregar imagens ao abrir a página
+        carregarProcessados();
+    </script>
+</body>
+</html>

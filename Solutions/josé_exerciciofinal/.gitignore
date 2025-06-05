@@ -1,0 +1,4 @@
+venv
+localstack
+_pycache_
+tests
