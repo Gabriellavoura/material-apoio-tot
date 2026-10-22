@@ -1,0 +1,20 @@
+[project]
+name = "projeto-base"
+version = "0.1.0"
+description = "Ponto de partida para os exercícios do ToT"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi[standard]",
+    "boto3",
+    "sqlmodel",
+    "psycopg[binary]",
+]
+
+[dependency-groups]
+dev = [
+    "pytest",
+    "ruff",
+]
+
+[tool.ruff]
+line-length = 100
