@@ -1,0 +1,24 @@
+# Roda lint e testes do projeto base a cada push e Pull Request.
+# Docs: https://docs.github.com/pt/actions · https://docs.astral.sh/uv/guides/integration/github/
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  projeto-base:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: templates/projeto-base
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10
+        with:
+          version: "0.13.5"
+      - run: uv sync --locked
+      - run: uv run ruff check .
+      - run: uv run ruff format --check .
+      - run: uv run pytest
