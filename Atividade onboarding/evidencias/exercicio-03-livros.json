@@ -1,0 +1,5 @@
+{
+  "requisicao": "POST /livros",
+  "codigo": 202,
+  "resposta": {"status": "recebido", "id": "12345"}
+}

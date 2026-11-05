@@ -1,0 +1,5 @@
+{
+  "status": "processada",
+  "bucket_entrada": "image-input",
+  "bucket_saida": "image-output"
+}
