@@ -11,5 +11,3 @@ aws s3 mb s3://ficcao
 aws s3 mb s3://outros
 
 echo "Infraestrutura pronta"
-EOF
-chmod +x solutions-rafael/exercicio-03/infra/floci/ready.d/01-recursos.sh
