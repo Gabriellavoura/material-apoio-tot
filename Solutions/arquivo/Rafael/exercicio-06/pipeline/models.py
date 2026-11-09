@@ -1,12 +1,15 @@
 import uuid
 from datetime import UTC, datetime
+from enum import Enum
 
 from sqlalchemy import DateTime
 from sqlmodel import Field, SQLModel
 
-RECEBIDA = "recebida"
-PROCESSADA = "processada"
-ERRO = "erro"
+
+class StatusImagem(str, Enum):
+    RECEBIDA = "recebida"
+    PROCESSADA = "processada"
+    ERRO = "erro"
 
 
 def agora() -> datetime:
@@ -18,7 +21,7 @@ class Imagem(SQLModel, table=True):
 
     id: str = Field(default_factory=lambda: str(uuid.uuid4()), primary_key=True)
     nome_arquivo: str
-    status: str = Field(default=RECEBIDA, index=True)
+    status: StatusImagem = Field(default=StatusImagem.RECEBIDA, index=True)
     chave_entrada: str
     chave_saida: str | None = None
     erro: str | None = None
