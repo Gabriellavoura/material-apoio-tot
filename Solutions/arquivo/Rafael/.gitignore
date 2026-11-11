@@ -1,0 +1,9 @@
+.venv/
+.pytest_cache/
+.ruff_cache/
+.vscode/
+__pycache__/
+.env
+.uv/
+.cloudbeaver/
+workspace/

@@ -1,0 +1,16 @@
+services:
+  floci:
+    image: floci/floci:2.3.0-compat
+    ports:
+      - "4566:4566"
+    volumes:
+      - ./infra/floci/ready.d:/etc/floci/init/ready.d:ro
+
+  floci-ui:
+    image: floci/floci-ui:0.7.0
+    ports:
+      - "4500:4500"
+    environment:
+      FLOCI_ENDPOINT: http://floci:4566
+    depends_on:
+      - floci

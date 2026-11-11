@@ -1,0 +1,82 @@
+services:
+  floci:
+    image: floci/floci:2.3.0-compat
+    ports:
+      - "4566:4566"
+    volumes:
+      - ./infra/floci/ready.d:/etc/floci/init/ready.d:ro
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4566/_localstack/health"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  floci-ui:
+    image: floci/floci-ui:0.7.0
+    ports:
+      - "4500:4500"
+    environment:
+      FLOCI_ENDPOINT: http://floci:4566
+    depends_on:
+      - floci
+
+  postgres:
+    image: postgres:18
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  cloudbeaver:
+    image: dbeaver/cloudbeaver:26.2.3
+    ports:
+      - "8978:8978"
+    environment:
+      CB_SERVER_NAME: ToT
+      CB_ADMIN_NAME: ${CB_ADMIN_NAME}
+      CB_ADMIN_PASSWORD: ${CB_ADMIN_PASSWORD}
+    volumes:
+      - ./infra/cloudbeaver/data-sources.json:/opt/cloudbeaver/conf/initial-data-sources.conf:ro
+      - cloudbeaver:/opt/cloudbeaver/workspace
+
+  api:
+    build: .
+    command: uv run uvicorn app.main:app --host 0.0.0.0 --port 8000
+    ports:
+      - "8000:8000"
+    environment: &pipeline-env
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      AWS_ENDPOINT_URL: http://floci:4566
+      AWS_REGION: us-east-1
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+    depends_on:
+      postgres:
+        condition: service_healthy
+      floci:
+        condition: service_healthy
+    restart: on-failure
+
+  worker:
+    build: .
+    command: uv run python -m app.worker
+    environment: *pipeline-env
+    depends_on:
+      postgres:
+        condition: service_healthy
+      floci:
+        condition: service_healthy
+    restart: on-failure
+
+volumes:
+  pgdata:
+  cloudbeaver:

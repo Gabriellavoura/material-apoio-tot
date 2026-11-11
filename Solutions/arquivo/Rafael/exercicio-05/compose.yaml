@@ -1,0 +1,67 @@
+services:
+  floci:
+    image: floci/floci:2.3.0-compat
+    ports:
+      - "4566:4566"
+    volumes:
+      - ./infra/floci/ready.d:/etc/floci/init/ready.d:ro
+
+  floci-ui:
+    image: floci/floci-ui:0.7.0
+    ports:
+      - "4500:4500"
+    environment:
+      FLOCI_ENDPOINT: http://floci:4566
+    depends_on:
+      - floci
+
+  db:
+    image: postgres:16-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=app_db
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  cloudbeaver:
+    image: dbeaver/cloudbeaver:latest
+    ports:
+      - "8978:8978"
+    volumes:
+      - ./infra/cloudbeaver:/opt/cloudbeaver/workspace
+    depends_on:
+      - db
+
+  api:
+    build: .
+    command: ["uv", "run", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+    ports:
+      - "8000:8000"
+    environment:
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - AWS_DEFAULT_REGION=us-east-1
+      - AWS_ENDPOINT_URL=http://floci:4566
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/app_db
+    depends_on:
+      - floci
+      - db
+      
+  worker:
+    build: .
+    command: ["uv", "run", "--no-sync", "python", "-m", "app.worker"]
+    environment:
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - AWS_DEFAULT_REGION=us-east-1
+      - AWS_ENDPOINT_URL=http://floci:4566
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/app_db
+    depends_on:
+      - floci
+      - db
+
+volumes:
+  pgdata:

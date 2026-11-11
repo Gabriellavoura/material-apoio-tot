@@ -1,0 +1,22 @@
+{
+  "connections": {
+    "postgres-1": {
+      "provider": "postgresql",
+      "driver": "postgres-jdbc",
+      "name": "vddb",
+      "save-password": true,
+      "configuration": {
+        "host": "postgres",
+        "port": "5432",
+        "database": "vddb",
+        "url": "jdbc:postgresql://postgres:5432/vddb",
+        "type": "dev",
+        "auth-model": "native",
+        "auth-properties": {
+          "user": "tot",
+          "password": "tot"
+        }
+      }
+    }
+  }
+}

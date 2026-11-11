@@ -1,0 +1,42 @@
+[project]
+name = "exercicio-06"
+version = "0.1.0"
+description = "Exercicio 06 - Pipeline e Deploy"
+readme = "README.md"
+authors = [
+    { name = "rafaellavoura", email = "lavourarafael@gmail.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "boto3>=1.43.119",
+    "fastapi>=0.162.0",
+    "opencv-python-headless>=4.10.0.84",
+    "psycopg[binary]>=3.3.6",
+    "pydantic>=2.14.1",
+    "pydantic-settings>=2.16.1",
+    "python-multipart>=0.0.32",
+    "sqlmodel>=0.0.48",
+    "uvicorn>=0.54.0",
+]
+
+[build-system]
+requires = ["uv_build>=0.13.5,<0.14.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "httpx>=0.28.1",
+    "moto>=5.2.4",
+    "pytest>=9.1.1",
+    "ruff>=0.17.2",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+
+[tool.ruff.lint]
+ignore = ["B008", "BLE001"]
+
+[tool.uv]
+package = false
