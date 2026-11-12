@@ -1,0 +1,6 @@
+{
+  "id": "12345",
+  "titulo": "Lorem Ipsum",
+  "status": "processado",
+  "arquivo": "s3://romance/Lorem Ipsum.json"
+}

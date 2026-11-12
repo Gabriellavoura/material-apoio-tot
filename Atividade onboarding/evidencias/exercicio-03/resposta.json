@@ -1,0 +1,7 @@
+{
+  "status": 202,
+  "body": {
+    "status": "recebido",
+    "id": "12345"
+  }
+}

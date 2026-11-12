@@ -1,0 +1,5 @@
+POST /images --form arquivo=@imagem-original.png
+Resposta: {"id":"...","status":"recebida"}
+
+GET /images/{id}
+Resposta: {"id":"...","status":"processada","arquivo_saida":"...png"}
