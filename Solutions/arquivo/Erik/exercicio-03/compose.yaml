@@ -1,0 +1,81 @@
+# Sobe todo o ambiente local com: docker compose up --build
+# Docs: https://docs.docker.com/compose/
+
+services:
+  # Sua API (FastAPI) -> http://localhost:8000/docs
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-tot}:${POSTGRES_PASSWORD:-tot}@postgres:5432/${POSTGRES_DB:-vddb}
+      # O boto3 usa estas variáveis para falar com o Floci em vez da AWS real
+      AWS_ENDPOINT_URL: http://floci:4566
+      AWS_DEFAULT_REGION: us-east-1
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+    depends_on:
+      postgres:
+        condition: service_healthy
+      floci:
+        condition: service_started
+
+  # Emulador de AWS (S3, SQS...) -> http://localhost:4566
+  # Docs: https://floci.io/floci/
+  floci:
+    image: floci/floci:2.3.0-compat
+    ports:
+      - "4566:4566"
+    volumes:
+      - ./infra/floci/ready.d:/etc/floci/init/ready.d:ro
+
+  # Tela para ver buckets e filas do Floci -> http://localhost:4500
+  # Docs: https://github.com/floci-io/floci-ui
+  floci-ui:
+    image: floci/floci-ui:0.7.0
+    ports:
+      - "4500:4500"
+    environment:
+      FLOCI_ENDPOINT: http://floci:4566
+    depends_on:
+      - floci
+
+  # Banco de dados -> localhost:5432
+  # Docs: https://hub.docker.com/_/postgres
+  postgres:
+    image: postgres:18
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-tot}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-tot}
+      POSTGRES_DB: ${POSTGRES_DB:-vddb}
+    volumes:
+      - pgdata:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      retries: 10
+
+  # Tela para ver o banco (versão web do DBeaver) -> http://localhost:8978
+  # Docs: https://dbeaver.com/docs/cloudbeaver/
+  cloudbeaver:
+    image: dbeaver/cloudbeaver:26.2.3
+    ports:
+      - "8978:8978"
+    environment:
+      CB_SERVER_NAME: ToT
+      CB_SERVER_URL: http://localhost:8978
+      CB_ADMIN_NAME: ${CLOUDBEAVER_ADMIN:-cbadmin}
+      CB_ADMIN_PASSWORD: ${CLOUDBEAVER_ADMIN_PASSWORD:-Tot12345}
+    volumes:
+      # Já deixa a conexão com o Postgres cadastrada
+      - ./infra/cloudbeaver/data-sources.json:/opt/cloudbeaver/conf/initial-data-sources.conf:ro
+      - cloudbeaver:/opt/cloudbeaver/workspace
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  pgdata:
+  cloudbeaver:
